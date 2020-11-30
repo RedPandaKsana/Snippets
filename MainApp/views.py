@@ -21,8 +21,15 @@ def add_snippet_page(request):
 
 def snippets_page(request):
     context = get_base_context(request, 'Просмотр сниппетов')
+    snippets = Snippet.objects.all()
+    context["snippets"] = snippets
+    #print("context = ", context)
     return render(request, 'pages/view_snippets.html', context)
 
-def items(request):
-    items = Snippet.objects.all()
-    return render(request, "pages/view_snippets.html", {"items": items})
+#def items(request):
+#    items = Snippet.objects.all()
+#    print(items)
+#    return render(request, "pages/view_snippets.html", {"items": items})
+
+def snippet(request, snippet_id):
+    pass

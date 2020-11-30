@@ -3,21 +3,39 @@
 {% block content %}
 <div class="row">
     <div class="col">
-        <p>На данной страницы будут отображаться все созданные сниппеты.</p>
-        <p>Пока тут пусто, скоро мы это исправим!</p>
+        <p>На данной страницы отображаются все сниппеты.</p>
         <hr>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-4 offset-2">
+    <div class="col">
         Список сниппетов:
-        <table>
-            <tr><th>Name</th><th>Code</th><th>Lang</th></tr>
-            {% for item in items %}
-            <tr><td>{{item.name}}</td><td>{{item.code}}</td><td>{{item.lang}}</td></tr>
-            {% endfor %}
-        </table>
+            
+            <div class="col">
+                <table class="table table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Название</th>
+                        <th scope="col">Дата создания</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for snippet in snippets %}
+                    <tr>
+                        <td scope="row">{{snippet.id}}</td>
+                        <td><a href="{% url 'snippet' snippet_id=snippet.id %}">{{snippet.name}}</a></td>
+                        <td>{{ snippet.creation_date|date:"M d, Y" }}</td> 
+                    </tr>
+                    {% endfor %}
+             
+                    </tbody>
+                </table>
+                <div align="right">
+                    <i style="color: gray;">Всего сниппетов: {{snippets.count}}</i>
+                </div>
+             </div>
     </div>
 </div>
 {% endblock %}
