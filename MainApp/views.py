@@ -2,6 +2,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from .models import Snippet
 from .forms import SnippetForm
+from django.contrib import auth
 
 
 def get_base_context(request, pagename):
@@ -24,12 +25,16 @@ def add_snippet_page(request):
     elif request.method == "POST":
         form = SnippetForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('pages/thanks.html')
+            if request.user.is_authenticated:
+                snippet = form.save(commit=False) #то есть не добавили в бд
+                snippet.user = request.user
+                snippet.save() #а вот тут уже добавили
+            return redirect('/thanks')
         context = get_base_context(request, 'Добавление нового сниппета')
         form = SnippetForm(request.POST)
+        print("errors = ", form.errors)
         context["form"] = form
-        return render(request,'add_snippet.html', context)
+        return render(request, 'pages/add_snippet.html', context)
 
 
 def snippets_page(request):
@@ -63,3 +68,35 @@ def snippet(request, snippet_id):
 def thanks(request):
     context = get_base_context(request, 'Thanks!!!')
     return render(request, 'pages/thanks.html', context)
+
+def login_page(request):
+    context = get_base_context(request, 'Login')
+    return render(request, 'pages/login.html', context)
+
+def login(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = auth.authenticate(request, username=username, password=password)
+        if user:
+            auth.login(request, user)
+            return redirect('/')
+        #if user is not None:
+        #    auth.login(request, user)
+        #else:
+           # Return error message
+        #    pass
+        errors = ["Некорректные данные!", ]
+        context = get_base_context(request, 'Login')
+        context["errors"] = errors
+        context["username"] = username
+        return render(request, 'pages/login.html', context)
+
+def logout(request):
+    auth.logout(request)
+    return redirect('/login/')
+
+def delete(request, delete_id):
+    snippet = Snippet.objects.get(id=delete_id)
+    snippet.delete()
+    return redirect('main_page')

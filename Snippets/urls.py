@@ -24,5 +24,9 @@ urlpatterns = [
     path('snippets/add', views.add_snippet_page, name="snippet_add"),
     path('snippets/list', views.snippets_page, name="snippet_list"),
     path('snippet/<int:snippet_id>', views.snippet, name="snippet"),
+    path('login/', views.login_page), # ссылка на страницу для входа
+    path('auth/', views.login), # прием данных от формы для логина
+    path('logout/', views.logout),
+    path('snippet/delete/<int:delete_id>', views.delete, name="delete"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
