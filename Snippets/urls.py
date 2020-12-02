@@ -28,5 +28,6 @@ urlpatterns = [
     path('auth/', views.login), # прием данных от формы для логина
     path('logout/', views.logout),
     path('snippet/delete/<int:delete_id>', views.delete, name="delete"),
+    path('edit/<int:id>/', views.edit, name='edit'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

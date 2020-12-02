@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Модели в Django</title>
+</head>
+<body class="container">
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            <label>Name</label><br>
+            <input type="text" name="name" value="{{snippet.name}}" />
+        </p>
+        <p>
+            <label>lang</label><br>
+            <input type="text" name="lang" value="{{snippet.age}}" />
+        </p>
+        <p>
+            <label>code</label><br>
+            <input type="text" name="code" value="{{snippet.age}}" />
+        </p>
+        <input type="submit" value="Сохранить" >
+    </form>
+</body>
+</html>

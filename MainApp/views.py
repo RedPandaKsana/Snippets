@@ -100,3 +100,18 @@ def delete(request, delete_id):
     snippet = Snippet.objects.get(id=delete_id)
     snippet.delete()
     return redirect('main_page')
+
+def edit(request, id):
+    try:
+        snippet = Snippet.objects.get(id=id)
+
+        if request.method == "POST":
+            snippet.name = request.POST.get("name")
+            snippet.lang = request.POST.get("lang")
+            snippet.code = request.POST.get("code")
+            snippet.save()
+            return redirect("/")
+        elif request.method == "GET":
+            return render(request, "pages/edit.html", {"snippet": snippet})
+    except Snippet.DoesNotExist:
+        return HttpResponseNotFound("<h2>Person not found</h2>")
