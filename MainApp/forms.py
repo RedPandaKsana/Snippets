@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea
 from MainApp.models import Snippet, Comment
 
 
@@ -14,3 +14,7 @@ class CommentForm(ModelForm):
        model = Comment
        # Описываем поля, которые будем заполнять в форме
        fields = ['text']
+       widgets = {
+           'text': Textarea(attrs={'rows':2, 'placeholder': 'Комментарий...'})
+       }
+

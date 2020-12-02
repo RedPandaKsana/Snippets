@@ -136,4 +136,10 @@ def comment_add(request):
    raise Http404
 
 def my_snippets(request):
-    pass
+    context = get_base_context(request, "Мои сниппеты")
+    if request.user.is_authenticated:
+        snippets = Snippet.objects.filter(user=request.user)
+        context["snippets"] = snippets
+        return render(request, 'pages/my_snippets.html', context)
+    else:
+        return redirect('/login/')
