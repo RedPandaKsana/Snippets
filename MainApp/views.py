@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
 from .models import Snippet
-from .forms import SnippetForm
+from .forms import SnippetForm, CommentForm
 from django.contrib import auth
 
 
@@ -25,10 +25,10 @@ def add_snippet_page(request):
     elif request.method == "POST":
         form = SnippetForm(request.POST)
         if form.is_valid():
+            snippet = form.save(commit=False)  # то есть не добавили в бд
             if request.user.is_authenticated:
-                snippet = form.save(commit=False) #то есть не добавили в бд
                 snippet.user = request.user
-                snippet.save() #а вот тут уже добавили
+            snippet.save() #а вот тут уже добавили
             return redirect('/thanks')
         context = get_base_context(request, 'Добавление нового сниппета')
         form = SnippetForm(request.POST)
@@ -53,8 +53,12 @@ def snippet(request, snippet_id):
     context = get_base_context(request, "Страница сниппета")
     try:
         snippet = Snippet.objects.get(id=snippet_id)
+        #comments = snippet.comment_set.all()
     except Snippet.DoesNotExist:
         raise Http404
+
+    context["comment_form"] = CommentForm() # передали форму от комментов
+    #context["comments"] = comments
     context["snippet"] = snippet
     return render(request, "pages/snippet.html", context)
 
@@ -115,3 +119,21 @@ def edit(request, id):
             return render(request, "pages/edit.html", {"snippet": snippet})
     except Snippet.DoesNotExist:
         return HttpResponseNotFound("<h2>Person not found</h2>")
+
+def comment_add(request):
+   if request.method == "POST":
+       snippet_id = request.POST["snippet_id"]
+       comment_form = CommentForm(request.POST)
+       if comment_form.is_valid():
+           comment = comment_form.save(commit=False)
+           comment.author = request.user
+           snippet = Snippet.objects.get(id=snippet_id)
+           comment.snippet = snippet
+           comment.save()
+
+       return redirect(f'/snippet/{snippet_id}')
+
+   raise Http404
+
+def my_snippets(request):
+    pass

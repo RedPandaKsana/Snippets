@@ -21,4 +21,24 @@
         </div>
     </div>
  </fieldset>
+
+<form action="{% url 'comment_add' %}" method="POST"}>
+      {% csrf_token %}
+    <input type="hidden" name="snippet_id" value="{{snippet.id}}">
+    {{comment_form}}
+   <button type="submit">Добавить</button>
+</form>
+
+<table border="1">
+   <tr>
+       <th>Автор</th>
+       <th>Комментарий</th>
+   </tr>
+   {% for comment in snippet.comment_set.all %}
+   <tr>
+       <td>{{comment.author.username}}</td>
+       <td>{{comment.text}}</td>
+   </tr>
+   {% endfor %}
+</table>
 {% endblock %}
