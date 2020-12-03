@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
 from .models import Snippet
-from .forms import SnippetForm, CommentForm
+from .forms import SnippetForm, CommentForm, UserRegistrationForm
 from django.contrib import auth
 
 
@@ -98,7 +98,7 @@ def login(request):
 
 def logout(request):
     auth.logout(request)
-    return redirect('/login/')
+    return redirect('main_page')
 
 def delete(request, delete_id):
     snippet = Snippet.objects.get(id=delete_id)
@@ -143,3 +143,15 @@ def my_snippets(request):
         return render(request, 'pages/my_snippets.html', context)
     else:
         return redirect('/login/')
+
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password'])
+            new_user.save()
+            return render(request, '/', {'new_user': new_user})
+    else:
+        user_form = UserRegistrationForm()
+    return render(request, 'pages/register.html', {'user_form': user_form})
