@@ -71,5 +71,16 @@
             "creation_date": "2020-12-03T17:47:07.855Z",
             "user": 1
         }
+    },
+    {
+        "model": "MainApp.snippet",
+        "pk": 6,
+        "fields": {
+            "name": "first",
+            "lang": "py",
+            "code": "first nach",
+            "creation_date": "2020-12-03T17:47:07.855Z",
+            "user": 1
+        }
     }
 ]
