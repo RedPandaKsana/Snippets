@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from .models import Snippet
 from .forms import SnippetForm, CommentForm, UserRegistrationForm
 from django.contrib import auth
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 def get_base_context(request, pagename):
@@ -39,7 +41,10 @@ def add_snippet_page(request):
 
 def snippets_page(request):
     context = get_base_context(request, 'Просмотр сниппетов')
-    snippets = Snippet.objects.all()
+    if request.user.is_authenticated:
+        snippets = Snippet.objects.filter(Q(public=True) | Q(user=request.user))
+    else:
+        snippets = Snippet.objects.filter(public=True)
     context["snippets"] = snippets
     #print("context = ", context)
     return render(request, 'pages/view_snippets.html', context)
@@ -100,11 +105,13 @@ def logout(request):
     auth.logout(request)
     return redirect('main_page')
 
+@login_required
 def delete(request, delete_id):
     snippet = Snippet.objects.get(id=delete_id)
     snippet.delete()
     return redirect('main_page')
 
+@login_required
 def edit(request, id):
     try:
         snippet = Snippet.objects.get(id=id)
