@@ -1,0 +1,75 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$HMdgw2xKX6Aq$kpqxVeAAxDAz+0xsviOH5wmGGTB6CzonCKaWbWqFPxY=",
+            "last_login": "2020-12-03T17:46:53.794Z",
+            "is_superuser": true,
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2020-12-03T17:46:18.009Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "MainApp.snippet",
+        "pk": 1,
+        "fields": {
+            "name": "dfsdf",
+            "lang": "sdfdsf",
+            "code": "sdfsdfssadasdadsasdasdasdasdasdasdasd",
+            "creation_date": "2020-12-02T15:40:47.423Z",
+            "user": null
+        }
+    },
+    {
+        "model": "MainApp.snippet",
+        "pk": 2,
+        "fields": {
+            "name": "sadsad",
+            "lang": "asdsad",
+            "code": "asdasd",
+            "creation_date": "2020-12-02T15:40:52.953Z",
+            "user": null
+        }
+    },
+    {
+        "model": "MainApp.snippet",
+        "pk": 3,
+        "fields": {
+            "name": "asdsad",
+            "lang": "asdsad",
+            "code": "asdsadsad",
+            "creation_date": "2020-12-02T17:23:42.324Z",
+            "user": null
+        }
+    },
+    {
+        "model": "MainApp.snippet",
+        "pk": 4,
+        "fields": {
+            "name": "addfdfdf",
+            "lang": "asdsadsad",
+            "code": "asdsadsadgfd",
+            "creation_date": "2020-12-02T17:35:32.924Z",
+            "user": null
+        }
+    },
+    {
+        "model": "MainApp.snippet",
+        "pk": 5,
+        "fields": {
+            "name": "first",
+            "lang": "py",
+            "code": "first nach",
+            "creation_date": "2020-12-03T17:47:07.855Z",
+            "user": 1
+        }
+    }
+]

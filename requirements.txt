@@ -3,3 +3,4 @@ django-extensions==3.0.5
 ipython==7.16.0
 gunicorn
 django-heroku
+dj_database_url
