@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load my_tags %}
 <div class="row">
     <div class="col">
         <p>На данной страницы отображаются все сниппеты.</p>
@@ -29,7 +30,7 @@
                         <td scope="row">{{snippet.id}}</td>
                         <td><a href="{% url 'snippet' snippet_id=snippet.id %}">{{snippet.name}}</a></td>
                         <td>{{ snippet.creation_date|date:"M d, Y" }}</td> 
-                        <td>{{ snippet.user.username }}</td> 
+                        <td>{{ snippet.user.username|is_empty:"без автора" }}</td> 
                         {% if request.user.is_authenticated %}
                         <td> <a href="{% url 'delete' delete_id=snippet.id %}">Удалить</a> | <a href="{% url 'edit' id=snippet.id %}">Изменить</a></td>
                         {% endif %}
