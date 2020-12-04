@@ -17,8 +17,10 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from MainApp import views
+from django.contrib import admin
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', views.index_page, name='main_page'),
     path('thanks/', views.thanks),
     path('snippets/add', views.add_snippet_page, name="snippet_add"),
